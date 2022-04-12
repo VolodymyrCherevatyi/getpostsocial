@@ -21,7 +21,9 @@ class AddPost extends Component {
 			.then(response => response.json())
 			.then(result => {
 				console.log(result);
-				this.props.update();
+				// this.props.update();
+
+				this.props.onSuccess(result)
 			});
 	}
 
@@ -43,9 +45,9 @@ class AddPost extends Component {
 		this.addPost(res);
 
 	}
-	check = () => {
-		this.props.update();
-	}
+	// check = () => {
+	// 	this.props.update();
+	// }
 
 	render() {
 
@@ -53,7 +55,7 @@ class AddPost extends Component {
 			<div className="add-new-post">
 				<input onChange={this.onInput} type='text' placeholder='add title' name='title' />
 				<textarea onChange={this.onInput} className='textarea' placeholder='write your post' name='body'></textarea>
-				<button onClick={this.check}>Add Post</button>
+				<button onClick={this.onAddPost}>Add Post</button>
 			</div>
 		);
 	}

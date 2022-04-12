@@ -32,9 +32,9 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<Header />
+				<Header/>
 				<GetPosts update={this.state.update} />
-				<AddPost update={this.toggleUpdatePosts} />
+
 			</div>
 		)
 	}
