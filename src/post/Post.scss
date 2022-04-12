@@ -1,7 +1,17 @@
 .post {
 	margin: 15px;
+	width: 800px;
+	min-height: 50px;
 	text-align: center;
 	border: 5px solid green;
-	color: rgb(252, 255, 47);
 	background-color: blue;
+	color: chocolate;
+	position: relative;
+	.title {
+		position: absolute;
+		left: 0;
+		top: -70%;
+		transform: translateY(50%);
+		color: #000000;
+	}
 }

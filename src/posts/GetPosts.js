@@ -1,10 +1,13 @@
 import { Component } from "react";
 import Post from "../post/Post";
 
-class Posts extends Component {
+import './Posts.scss';
+
+class GetPosts extends Component {
 	state = {
 		posts: []
 	}
+
 	getPosts = async () => {
 
 		let result = await fetch('https://simple-blog-api.crew.red/posts')
@@ -13,7 +16,7 @@ class Posts extends Component {
 				let id = 0;
 				const res = result.map(item => {
 					id++;
-					return <Post post={item.body} key={id} />
+					return <Post post={item.body} title={item.title} key={id} />
 				});
 				this.setState({
 					posts: res
@@ -21,14 +24,23 @@ class Posts extends Component {
 			});
 	}
 
+	componentDidMount() {
+		this.getPosts();
+	}
+
+	// componentDidUpdate() {
+	// 	if (this.props.update) {
+	// 		this.getPosts();
+	// 	}
+	// }
 
 	render() {
 		const { posts } = this.state;
-		this.getPosts();
+
 		return (
-			<div> {posts} </div >
+			<div className="posts"> {posts} </div >
 		);
 	}
 }
 
-export default Posts;
+export default GetPosts;
