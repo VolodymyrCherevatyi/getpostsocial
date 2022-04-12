@@ -12,6 +12,7 @@ class AddPost extends Component {
 
 	addPost = async (data) => {
 
+
 		let result = await fetch('https://simple-blog-api.crew.red/posts', {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
