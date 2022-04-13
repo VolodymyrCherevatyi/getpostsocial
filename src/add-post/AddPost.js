@@ -10,45 +10,29 @@ class AddPost extends Component {
 		body: ''
 	}
 
-	addPost = async (data) => {
+	addPost = (url, data) => {
 
-
-		let result = await fetch('https://simple-blog-api.crew.red/posts', {
+		fetch(url, {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: data
-
 		})
 			.then(response => response.json())
 			.then(result => {
-				console.log(result);
-				// this.props.update();
-
-				this.props.onSuccess(result)
+				this.props.onSuccess(result);
 			});
 	}
 
 	onInput = (e) => {
-		if (e.target.name === 'title') {
-			this.setState({
-				title: e.target.value
-			})
-		} else {
-			this.setState({
-				body: e.target.value
-			})
-		}
-
+		this.setState({
+			[e.target.name]: e.target.value
+		})
 	}
 
 	onAddPost = () => {
 		const res = JSON.stringify(this.state);
-		this.addPost(res);
-
+		this.addPost('https://simple-blog-api.crew.red/posts', res);
 	}
-	// check = () => {
-	// 	this.props.update();
-	// }
 
 	render() {
 
@@ -63,7 +47,6 @@ class AddPost extends Component {
 }
 
 export default AddPost;
-// onClick={this.onAddPost}
 // {
 // 	"title": "test",
 // 	"body": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas molestias laborum voluptas quia porro ullam alias? Deleniti velit iure inventore rerum, commodi sit fuga in labore quo, laudantium ducimus repudiandae?"

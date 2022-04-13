@@ -1,79 +1,78 @@
-import {Component} from "react";
+import { Component } from "react";
 import Post from "../post/Post";
-
-import './Posts.scss';
 import AddPost from "../add-post/AddPost";
 
-class GetPosts extends Component {
-  state = {
-    posts: []
-  }
-
-  // це не правильно
-  getPosts = async () => {
-    let result = await fetch('https://simple-blog-api.crew.red/posts')
-      .then(response => response.json())
-      .then(result => {
-        let id = 0;
-        const res = result.map(item => {
-          id++;
-          return <Post post={item.body} title={item.title} key={id}/>
-        });
-        this.setState({
-          posts: res
-        });
-      });
-  }
-
-  // варіант 1 з async/await
-  getPostsAwait = async () => {
-    const postResponse = await fetch('https://simple-blog-api.crew.red/posts');
-    const postJson = await postResponse.json();
-
-    this.setState({posts: postJson});
-  };
-
-  // варіант 2 з then()
-  getPostsThen = () => {
-    fetch('https://simple-blog-api.crew.red/posts')
-      .then(response => response.json())
-      .then(result => {
-        this.setState({posts: result});
-      })
-  }
-
-  componentDidMount() {
-    this.getPostsThen();
-  }
-
-  // componentDidUpdate() {
-  // 	if (this.props.update) {
-  // 		this.getPosts();
-  // 	}
-  // }
-
-  render() {
-    const {posts} = this.state;
-
-    return (
-      <div>
-
-        <AddPost onSuccess={(newPost) => {
-          // todo add to current state
-        }} />
+import './Posts.scss';
+import Services from "../services/Services";
 
 
-        <div className="posts">
-          {posts.map(item => (
-            <Post post={item.body} title={item.title} key={item.id}/>
-          ))}
-        </div>
+class Posts extends Component {
+	state = {
+		posts: []
+	}
+
+	service = new Services();
+
+	//   // варіант 1 з async/await
+	//   getPostsAwait = async () => {
+	//     const postResponse = await fetch('https://simple-blog-api.crew.red/posts');
+	//     const postJson = await postResponse.json();
+
+	//     this.setState({posts: postJson});
+	//   };
+
+	//   // варіант 2 з then()
+	//   getPostsThen = () => {
+	//     fetch('https://simple-blog-api.crew.red/posts')
+	//       .then(response => response.json())
+	//       .then(result => {
+	//         this.setState({posts: result});
+	//       })
+	//   }
+
+	componentDidMount() {
+		this.service.getPosts('https://simple-blog-api.crew.red/posts')
+			.then(result => {
+				this.setState({
+					posts: result
+				});
+			})
+	}
+
+
+	displayPosts = () => {
+		const { posts } = this.state;
+		const postsCount = posts.length;
+		const reversPosts = [];
+		posts.map((item, i) => reversPosts[postsCount - i - 1] = item);
+		return reversPosts.map(item => (
+			<Post post={item.body} title={item.title} key={item.id} />
+		));
+	}
+
+	addNewPost = (newPost) => {
+		const newPosts = this.state.posts;
+		newPosts.push(newPost);
+		this.setState({
+			posts: newPosts
+		});
+
+	}
+
+	render() {
+
+		return (
+			<div>
+				<AddPost onSuccess={this.addNewPost} />
+				<div className="posts">
+					{this.displayPosts()}
+				</div>
 
 
 
-      </div>
-    );
-  }
+			</div>
+		);
+	}
 }
 
-export default GetPosts;
+export default Posts;
