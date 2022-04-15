@@ -11,8 +11,7 @@ class AddPost extends Component {
 	}
 
 	addPost = (url, data) => {
-
-		fetch(url, {
+		return fetch(url, {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: data
@@ -29,18 +28,28 @@ class AddPost extends Component {
 		})
 	}
 
+	clearForm = () => {
+		this.setState({
+			title: '',
+			body: ''
+		})
+	};
+
 	onAddPost = () => {
 		const res = JSON.stringify(this.state);
-		this.addPost('https://simple-blog-api.crew.red/posts', res);
+		this.addPost('https://simple-blog-api.crew.red/posts', res)
+			.then(this.clearForm)
 	}
 
 	render() {
+		const {title, body} = this.state;
+		const isDisabled = !title || !body;
 
 		return (
 			<div className="add-new-post">
-				<input onChange={this.onInput} type='text' placeholder='add title' name='title' />
-				<textarea onChange={this.onInput} className='textarea' placeholder='write your post' name='body'></textarea>
-				<button onClick={this.onAddPost}>Add Post</button>
+				<input onChange={this.onInput} type='text' placeholder='add title' name='title' value={title} />
+				<textarea onChange={this.onInput} className='textarea' placeholder='write your post' name='body' value={body} />
+				<button disabled={isDisabled} onClick={this.onAddPost}>Add Post</button>
 			</div>
 		);
 	}

@@ -34,25 +34,14 @@ class Posts extends Component {
 		this.service.getPosts('https://simple-blog-api.crew.red/posts')
 			.then(result => {
 				this.setState({
-					posts: result
+					posts: result.reverse()
 				});
 			})
 	}
 
-
-	displayPosts = () => {
-		const { posts } = this.state;
-		const postsCount = posts.length;
-		const reversPosts = [];
-		posts.map((item, i) => reversPosts[postsCount - i - 1] = item);
-		return reversPosts.map(item => (
-			<Post post={item.body} title={item.title} key={item.id} />
-		));
-	}
-
 	addNewPost = (newPost) => {
 		const newPosts = this.state.posts;
-		newPosts.push(newPost);
+		newPosts.unshift(newPost);
 		this.setState({
 			posts: newPosts
 		});
@@ -60,12 +49,15 @@ class Posts extends Component {
 	}
 
 	render() {
+		const { posts } = this.state;
 
 		return (
 			<div>
 				<AddPost onSuccess={this.addNewPost} />
 				<div className="posts">
-					{this.displayPosts()}
+					{posts.map(item => (
+						<Post post={item.body} title={item.title} key={item.id} />
+					))}
 				</div>
 
 
