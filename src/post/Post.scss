@@ -7,11 +7,11 @@
 	background-color: blue;
 	color: chocolate;
 	position: relative;
-	.title {
-		position: absolute;
-		left: 0;
-		top: -70%;
-		transform: translateY(50%);
-		color: #000000;
+	&__title {
+		display: flex;
+		justify-content: space-between;
+		text-align: left;
+		color: green;
 	}
+	
 }

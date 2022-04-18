@@ -2,11 +2,16 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	.textarea {
-		min-width: 500px;
-		min-height: 50px;
+	.title{
+		min-width: 800px;
 	}
-	button {
-		height: 100%;
+	.add-post-btn{
+		display: block;
+		margin: 10px auto;
 	}
+	.add-post{
+		min-height: 100px; 
+		max-height: 150px;
+	}
+	
 }

@@ -1,46 +1,72 @@
-import './AddPost.scss';
-
 import { Component } from "react";
+import { Form, FloatingLabel, Button } from "react-bootstrap";
+import Services from "../services/Services";
 
+import "./AddPost.scss";
 
 class AddPost extends Component {
-
 	state = {
-		title: '',
-		body: ''
-	}
-
-	addPost = (url, data) => {
-
-		fetch(url, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: data
-		})
-			.then(response => response.json())
-			.then(result => {
-				this.props.onSuccess(result);
-			});
-	}
+		title: "",
+		body: ""
+	};
+	
+	service = new Services();
 
 	onInput = (e) => {
 		this.setState({
-			[e.target.name]: e.target.value
-		})
-	}
+			[e.target.name]: e.target.value,
+		});
+	};
 
 	onAddPost = () => {
-		const res = JSON.stringify(this.state);
-		this.addPost('https://simple-blog-api.crew.red/posts', res);
-	}
+		const data = JSON.stringify(this.state);
+		this.service.getResourse("https://simple-blog-api.crew.red/posts", "POST", data)
+			.then((result) => {
+				this.props.onSuccess(result);
+			})
+			.then(this.setState({
+				title: "",
+				body: ""
+			}));
+	};
 
 	render() {
-
+		const {title, body} = this.state;
+		const disable = (!title || !body)? true : false; 
 		return (
 			<div className="add-new-post">
-				<input onChange={this.onInput} type='text' placeholder='add title' name='title' />
-				<textarea onChange={this.onInput} className='textarea' placeholder='write your post' name='body'></textarea>
-				<button onClick={this.onAddPost}>Add Post</button>
+				<Form>
+					<FloatingLabel
+						controlId="floatingInput"
+						label="Add post title"
+						className="mb-3"
+					>
+						<Form.Control 
+							onChange={this.onInput} 
+							name="title" 
+							type="text" 
+							placeholder="Add post title" 
+							className="title"
+							value={title}
+						/>
+					</FloatingLabel>
+					<FloatingLabel 
+						controlId="floatingTextarea2" 
+						label="Write your post"
+					>
+						<Form.Control
+							onChange={this.onInput}
+							name="body"
+							as="textarea"
+							className="add-post"
+							placeholder="Write your post"
+							value={body}
+						/>
+					</FloatingLabel>
+					<Button variant="outline-primary" className="add-post-btn" onClick={this.onAddPost} disabled={disable}>
+						Add Post
+					</Button>
+				</Form>
 			</div>
 		);
 	}

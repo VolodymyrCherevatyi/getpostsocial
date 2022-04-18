@@ -1,13 +1,10 @@
 import { Component } from "react";
-import './Header.scss';
+
+import "./Header.scss";
 
 class Header extends Component {
 	render() {
-		return (
-			<header>
-				GetPostSocial
-			</header>
-		);
+		return <header>GetPostSocial</header>;
 	}
 }
 
