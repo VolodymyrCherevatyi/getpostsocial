@@ -32,7 +32,7 @@ class AddPost extends Component {
 
 	render() {
 		const {title, body} = this.state;
-		const disable = (!title || !body)? true : false; 
+		const isDisabled = !title || !body; 
 		return (
 			<div className="add-new-post">
 				<Form>
@@ -63,7 +63,7 @@ class AddPost extends Component {
 							value={body}
 						/>
 					</FloatingLabel>
-					<Button variant="outline-primary" className="add-post-btn" onClick={this.onAddPost} disabled={disable}>
+					<Button variant="outline-primary" className="add-post-btn" onClick={this.onAddPost} disabled={isDisabled}>
 						Add Post
 					</Button>
 				</Form>
